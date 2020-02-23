@@ -1,5 +1,11 @@
 package com.corelib;
 
+import java.io.IOException;
+import org.apache.log4j.Appender;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -7,29 +13,44 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Library1 {
 
-	// Create WebDriver type variable for input browser type
+	static Logger log = Logger.getLogger(Library1.class);
+	
+	// Logger method
+	public Logger printLog(String message) {
 
+		PatternLayout layout = new PatternLayout("[%-7p %d [%t] %c %x - %m%n]");
+		Appender fileAppender = null;
+		try {
+			fileAppender = new FileAppender(layout, "D:/test.txt", false);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		BasicConfigurator.configure(fileAppender);
+		return log;
+	}
+
+	// Create WebDriver type variable for input browser type
 	public WebDriver wakeBrowser(String browser) {
 
 		WebDriver driver = null;
 
 		switch (browser) {
 		case "chrome":
-			System.setProperty("webdriver.chrome.driver","D:\\New folder\\cucumber-java-skeleton\\drivers\\chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver",
+					"D:\\New folder\\cucumber-java-skeleton\\drivers\\chromedriver.exe");
 			ChromeOptions chOption = new ChromeOptions();
 			chOption.setAcceptInsecureCerts(true);
 			driver = new ChromeDriver(chOption);
 			break;
 
 		case "firefox":
-			System.setProperty("webdriver.gecko.driver","D:\\New folder\\cucumber-java-skeleton\\drivers\\geckodriver.exe");
+			System.setProperty("webdriver.gecko.driver",
+					"D:\\New folder\\cucumber-java-skeleton\\drivers\\geckodriver.exe");
 			FirefoxOptions ffOption = new FirefoxOptions();
 			ffOption.setAcceptInsecureCerts(true);
 			driver = new FirefoxDriver(ffOption);
@@ -92,13 +113,13 @@ public class Library1 {
 		}
 
 	}
-	
-	//Create wait for element for provided time
+
+	// Create wait for element for provided time
 	public void waitForElement(WebDriver driver, String xpath, int seconds) {
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, seconds);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
-		} catch(Exception err) {
+		} catch (Exception err) {
 			throw err;
 		}
 	}

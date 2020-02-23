@@ -1,10 +1,10 @@
 package com.cucumber;
 
 import org.openqa.selenium.WebDriver;
+
 import com.constants.ProjectXpaths;
 import com.corelib.Library1;
 import com.corelib.Library2;
-import com.corelib.io;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -28,6 +28,7 @@ public class StepDefinitions {
 	@Given("Open {string} browser and navigate to {string}")
 	public void open_browser_and_navigate_to(String browser, String webAddress) {
 		try {
+			lib1.printLog("Opening browser..");
 			setDriver(lib1.navigateToWebpage(browser, webAddress));
 		} catch (Exception err) {
 			System.err.println(err.getMessage());

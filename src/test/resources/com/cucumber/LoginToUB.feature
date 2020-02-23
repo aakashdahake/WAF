@@ -6,5 +6,5 @@ Feature: Navigate through UB UI
     #And click submit button
     #And handle screen resolution dialog
     #And handle EULA dialog
-    And handle Date and Time wizard screen
+    #And handle Date and Time wizard screen
     
